@@ -301,6 +301,18 @@ private class Class {
     fun(m);
 }
 
+@("mock class return value test")
+@safe pure unittest {
+    int fun(Class f) {
+        // f.timesTwo is mocked to return 2, no matter what's passed in
+        return 2 * f.timesTwo(int.max);
+    }
+
+    auto m = mock!Class;
+    m.expect!"timesTwo";
+    m.returnValue!("timesTwo")(2);
+    assert(fun(m) == 4);
+}
 
 @("mock interface multiple calls")
 @safe pure unittest {
